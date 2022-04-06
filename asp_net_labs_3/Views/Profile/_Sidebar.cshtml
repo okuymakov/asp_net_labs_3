@@ -1,0 +1,24 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="d-flex flex-row justify-content-center">
+    <nav id="sidebar" class="fixed-left">
+        <div class="sidebar-header">
+            <h3>Профиль</h3>
+        </div>
+
+        <ul class="list-unstyled components">
+
+            <li class="active">
+                <a asp-controller="Profile" asp-action="Orders">Заказы</a>
+            </li>
+            <li>
+                <a asp-controller="Profile" asp-action="Edit">Мои данные</a>
+            </li>
+        </ul>
+    </nav>
+    <div class="d-flex flex-column flex-fill mx-5">
+        @RenderBody()
+    </div>
+</div>

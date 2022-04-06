@@ -1,0 +1,71 @@
+﻿@model OrderViewModel
+@using System.Security.Claims;
+@{
+    ViewData["Title"] = "Оформление заказа";
+}
+
+
+<div class="modal-header">
+    <h5 class="modal-title" id="orderModalLabel">Оформление заказа</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form id="order-form">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input asp-for="ProductId" type="hidden" />
+        <input asp-for="CustomerId" type="hidden" value="@int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier))"/>
+        <div class="form-group">
+            <label asp-for="CustomerName" class="control-label">Имя*</label>
+            <input asp-for="CustomerName" class="form-control" value="@User.FindFirstValue("Firstname")" />
+            <span asp-validation-for="CustomerName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="CustomerSurname" class="control-label">Фамилия*</label>
+            <input asp-for="CustomerSurname" class="form-control" value="@User.FindFirstValue("Surname")" />
+            <span asp-validation-for="CustomerSurname" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="CustomerPatronymic" class="control-label">Отчество</label>
+            <input asp-for="CustomerPatronymic" class="form-control" value="@User.FindFirstValue("Patronymic")" />
+            <span asp-validation-for="CustomerPatronymic" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="CustomerPhone" class="control-label">Телефон*</label>
+            <input asp-for="CustomerPhone" class="form-control" value="@User.FindFirstValue(ClaimTypes.MobilePhone)" readonly/>
+            <span asp-validation-for="CustomerPhone" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="CustomerEmail" class="control-label">Эл.почта*</label>
+            <input asp-for="CustomerEmail" class="form-control" value="@User.FindFirstValue(ClaimTypes.Name)" readonly/>
+            <span asp-validation-for="CustomerEmail" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Address" class="control-label">Адрес*</label>
+            <input asp-for="Address" class="form-control" value="@User.FindFirstValue(ClaimTypes.StreetAddress)" />
+            <span asp-validation-for="Address" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="PaymentMethod" class="control-label">Способ оплаты*</label>
+            <select asp-for="PaymentMethod" class="form-control" asp-items="Html.GetEnumSelectList<PaymentMethod>()"></select>
+            <span asp-validation-for="PaymentMethod" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="DeliveryMethod" class="control-label">Способ доставки*</label>
+            <select asp-for="DeliveryMethod" class="form-control" asp-items="Html.GetEnumSelectList<DeliveryMethod>()"></select>
+            <span asp-validation-for="DeliveryMethod" class="text-danger"></span>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Вернуться</button>
+    <input type="submit" class="btn btn-primary create-order" value="Оформить заказ" form="order-form" />
+
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

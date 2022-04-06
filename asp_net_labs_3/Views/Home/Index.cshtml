@@ -1,0 +1,35 @@
+﻿@model List<Product>
+
+@{
+    ViewData["Title"] = "Главная";
+}
+
+@foreach (var product in Model)
+{
+    <div class="card product">
+        <div class="card-body">
+            <h5 class="product-name card-title">@product.Name</h5>
+            <h6 class="product-price card-subtitle mb-2 text-muted">@product.Price</h6>
+            <button class="btn btn-primary" data-toggle="modal" data-target="#orderModal" data-id="@product.Id">Заказать</button>
+        </div>
+    </div>
+}
+
+<div>
+    <a asp-action="Logout">Выйти</a>
+</div>
+
+<div class="modal fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="orderModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            @await Html.PartialAsync("Order", new OrderViewModel { });
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+
